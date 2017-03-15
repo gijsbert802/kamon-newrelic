@@ -33,3 +33,10 @@ lazy val root = (project in file("."))
         compileScope(kamonCore, sprayCan, sprayClient, sprayRouting, sprayJson, sprayJsonLenses, newrelic) ++
         providedScope(aspectJ, newrelic) ++
         testScope(scalatest, akkaDependency("testkit").value, kamonTestkit, sprayTestkit, slf4jApi, slf4jnop))
+  .settings(credentials += Credentials(Path.userHome / ".ivy2" / ".credentialsnexus"))
+  .settings(
+    publishTo := (if (isSnapshot.value)
+      Some("Sonatype Nexus Repository Manager Realm" at "https://nexus.zorgdomein.rocks/content/repositories/libs-snapshot-local/")
+        else
+      Some("Sonatype Nexus Repository Manager Realm" at "https://nexus.zorgdomein.rocks/content/repositories/libs-release-local/"))
+    )
